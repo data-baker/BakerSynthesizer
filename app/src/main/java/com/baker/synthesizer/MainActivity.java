@@ -12,8 +12,8 @@ import com.databaker.synthesizer.BakerConstants;
 import com.databaker.synthesizer.BakerSynthesizer;
 
 public class MainActivity extends AppCompatActivity {
-    private final String clientId = "1cae6918-0bc7-4220-934c-57e83a15d58e";
-    private final String clientSecret = "NjU1N2ZhYTAtNjUzNi00OTI4LWIwNmYtYzE1N2JjMTZjOTA3";
+    private final String clientId = "your clientId";
+    private final String clientSecret = "your clientSecret";
     private BakerSynthesizer bakerSynthesizer;
     private static AudioPlayer audioPlayer;
     private EditText editText;
