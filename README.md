@@ -1,4 +1,3 @@
-# 标贝合成安卓SDK & demo 
 # 1.Android Studio集成lib（参考demo）
 ## 1.1将jar包添加至工程主module下，lib文件夹里。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191204173225864.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hzaHVhaWp1bjU1,size_16,color_FFFFFF,t_70)
@@ -50,6 +49,7 @@ setVolume | 	音量	 | 否	 | 设置语音的音量，在0～9之间（只支持
 setPitch | 	音调 | 	否 | 	设置语音的音调，取值0-9，不传时默认为5中语调
 setAudioType | 	返回数据文件格式 | 	否	 | 可不填，不填时默认为4，audiotype=4 ：返回16K采样率的pcm格式，audiotype=5 ：返回8K采样率的pcm格式，audiotype=6 ：返回16K采样率的wav格式， audiotype=6&rate=1 ：返回8K的wav格式
 setEnableTimestamp | 	是否返回时间戳内容 | 	否 | 	设置是否返回时间戳内容。true=支持返回，false=不需要返回。不设置默认为false不返回。
+
 **注意：如果调整了参数中的采样率或码率，记得注意(Demo中示例的)播放器的采样率也要同步调整。**
 
 ## 4.2 BakerCallback 回调类方法说明
@@ -121,18 +121,17 @@ trace_id  | 	string  | 	引擎内部合成任务id
 6. 测试日志详见：logInfo.txt
 7. Demo测试内存及CPU消耗情况见图：内存及CPU消耗情况.png
 
-8. 12次合成失败错误日志信息：
-1)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575366856831514
-2)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575360213440525
-3)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575349249281115
-4)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575354250343803
-5)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575355649964829
+8. 12次合成失败错误日志信息：  
+1)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575366856831514  
+2)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575360213440525  
+3)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575349249281115  
+4)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575354250343803  
+5)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575355649964829  
 6)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79ca541308: Failure in SSL library, usually a protocol error error:100000d7:SSL routines:OPENSSL_internal:SSL_HANDSHAKE_FAILURE (external/boringssl/src/ssl/ssl_lib.cc:988 0x79e25bce07:0x00000000)  
-7)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79ca541308: Failure in SSL library, usually a protocol error error:1000042e:SSL routines:OPENSSL_internal:TLSV1_ALERT_PROTOCOL_VERSION (external/boringssl/src/ssl/tls_record.cc:592 0x79b3701548:0x00000001)
-8)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79e584cf88: I/O error during system call, Bad file descriptor
-9)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79ca541308: I/O error during system call, Bad file descriptor
-10)发生错误：errorCode=90005,errorMsg=合成失败：Connection closed by peer
-11)发生错误：errorCode=90005,errorMsg=合成失败：null
-12)发生错误：errorCode=90005,errorMsg=合成失败：null
-
-	错误原因分析：前5次是因为server端内部BUG错误，此BUG现在已修复。错误码90005的意思是sdk在发起网络请求时，因各类网络原因导致错误。此时还没有进入到引擎合成业务环节。BUG 6-10，大意是websocket协议在握手时，ssl中某环节出错，比如不合法文件描述符等。与整个网络中网络交换机、移动设备等都有原因。11-12错误原因暂无法追踪。
+7)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79ca541308: Failure in SSL library, usually a protocol error error:1000042e:SSL routines:OPENSSL_internal:TLSV1_ALERT_PROTOCOL_VERSION (external/boringssl/src/ssl/tls_record.cc:592 0x79b3701548:0x00000001)  
+8)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79e584cf88: I/O error during system call, Bad file descriptor  
+9)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79ca541308: I/O error during system call, Bad file descriptor  
+10)发生错误：errorCode=90005,errorMsg=合成失败：Connection closed by peer  
+11)发生错误：errorCode=90005,errorMsg=合成失败：null  
+12)发生错误：errorCode=90005,errorMsg=合成失败：null  
+错误原因分析：前5次是因为server端内部BUG错误，此BUG现在已修复。错误码90005的意思是sdk在发起网络请求时，因各类网络原因导致错误。此时还没有进入到引擎合成业务环节。BUG 6-10，大意是websocket协议在握手时，ssl中某环节出错，比如不合法文件描述符等。与整个网络中网络交换机、移动设备等都有原因。11-12错误原因暂无法追踪。
