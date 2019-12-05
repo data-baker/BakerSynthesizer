@@ -109,29 +109,3 @@ trace_id  | 	string  | 	引擎内部合成任务id
 50001 | 	处理超时
 50002 | 	内部rpc调用失败
 50004 | 	其他内部错误
-
-# 附：万次合成测试情况
-1. 总合成次数：10052次
-2. 合成失败：12次
-3. 合成失败占比：0.119%
-4. 平均首包返回时长：1093.65毫秒
-5. 合成参数：
-{"access_token":"1d36b097-2f77-49f8-b1e0-a629b9336e8e","tts_params":{"volume":"5","rate":"2","audiotype":"4","domain":"1","voice_name":"标准合成_模仿儿童_果子","language":"ZH","text":"200字合成文本编码后内容省略......","pitch":"5","speed":"5.0"},"version":"1.0"}
-
-6. 测试日志详见：logInfo.txt
-7. Demo测试内存及CPU消耗情况见图：内存及CPU消耗情况.png
-
-8. 12次合成失败错误日志信息：  
-1)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575366856831514  
-2)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575360213440525  
-3)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575349249281115  
-4)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575354250343803  
-5)发生错误：errorCode=50002,errorMsg=Internal rpc failed,traceId=1575355649964829  
-6)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79ca541308: Failure in SSL library, usually a protocol error error:100000d7:SSL routines:OPENSSL_internal:SSL_HANDSHAKE_FAILURE (external/boringssl/src/ssl/ssl_lib.cc:988 0x79e25bce07:0x00000000)  
-7)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79ca541308: Failure in SSL library, usually a protocol error error:1000042e:SSL routines:OPENSSL_internal:TLSV1_ALERT_PROTOCOL_VERSION (external/boringssl/src/ssl/tls_record.cc:592 0x79b3701548:0x00000001)  
-8)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79e584cf88: I/O error during system call, Bad file descriptor  
-9)发生错误：errorCode=90005,errorMsg=合成失败：Read error: ssl=0x79ca541308: I/O error during system call, Bad file descriptor  
-10)发生错误：errorCode=90005,errorMsg=合成失败：Connection closed by peer  
-11)发生错误：errorCode=90005,errorMsg=合成失败：null  
-12)发生错误：errorCode=90005,errorMsg=合成失败：null  
-错误原因分析：前5次是因为server端内部BUG错误，此BUG现在已修复。错误码90005的意思是sdk在发起网络请求时，因各类网络原因导致错误。此时还没有进入到引擎合成业务环节。BUG 6-10，大意是websocket协议在握手时，ssl中某环节出错，比如不合法文件描述符等。与整个网络中网络交换机、移动设备等都有原因。11-12错误原因暂无法追踪。
