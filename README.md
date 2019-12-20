@@ -24,17 +24,28 @@ android:usesCleartextTraffic="true"
 
 # 2.SDK关键类
 1. BakerSynthesizer：语音合成关键业务处理类，全局只需一个实例即可。
-2. BakerCallback：合成结果回调类。在获得合成音频数据，发生错误等事件发生时会触发回调。您应当实现该类，在回调方法中加入自己的处理逻辑。
-3. BakerConstants：参数等常量类。
+2. BakerCallback：合成结果源数据回调类。在获得合成音频源数据，或发生错误等情况发生时会触发此回调。如果您的应用场景中需要直接处理返回的字节类型源数据，您可以实现该类，并在回调方法中加入自己的处理逻辑。设置参数时请将此callback提交给BakerSynthesizer实例。
+3. BakerMediaCallback：如果想直接使用SDK中的播放器来处理文本合成播放任务。您可以实现该类，此回调类中包含了播放器的各种状态回调，您可以在这些回调方法中实现自己的其他业务逻辑。设置参数时请将此callback提交给BakerSynthesizer实例。
+4. BakerConstants：参数等常量类。
 
-# 3.调用顺序
+# 3.调用说明
 1. 初始化BakerSynthesizer类，得到BakerSynthesizer的实例。
-2. 定义BakerCallback实现类。
+2. SDK中提供了2个回调类。如果想要自己处理合成返回的字节类型源数据，则可以定义BakerCallback实现类。如果想直接将合成文本数据交给SDK中的播放器处理，则可以定义BakerMediaCallback实现类。**如果选择了定义BakerCallback实现类，SDK中不会执行播放器等一整套业务代码，不用担心由此带来的各类附加资源开销。**
 3. 设置BakerSynthesizer合成参数，包括必填参数和非必填参数。
 4. 调用BakerSynthesizer.start()方法开始与云端服务连接
-5. 在BakerCallback回调中获得合成的音频数据并按您自己的业务需要处理合成结果或错误情况。
-6. 如果需要发起新的请求，可以重复第3-5步。
-7. 在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.stop();结束websocket服务，释放资源。
+5. callback中的onPrepared()意义是合成的第一帧数据已取得。所以您可以在此回调方法中开启播放任务。
+6. 在callback其他回调方法中按照您的业务需求实现对应逻辑。
+7. 如果需要发起新的请求，可以重复第3-6步。
+8. 在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.stop();结束websocket服务，释放资源。
+
+注意：若使用SDK中播放器执行合成音频播放任务，有以下方法可调用。  
++ bakerSynthesizer.bakerPlay() 播放音频，常在onPrepared()回调方法里调用此方法执行播放。
++ bakerSynthesizer.bakerPause() 暂停播放。
++ bakerSynthesizer.bakerStop() 停止播放。
++ bakerSynthesizer.isPlaying() 当前播放状态，boolean型，true=正在播放中，false=暂停或停止播放。
++ bakerSynthesizer.getCurrentPosition() 当前播放进度。
++ bakerSynthesizer.getDuration()文本合成音频的总长度。
+
 
 # 4.参数说明
 ## 4.1基本参数说明
@@ -48,7 +59,6 @@ setSpeed | 	语速 | 	否	 | 设置播放的语速，在0～9之间（支持浮�
 setVolume | 	音量	 | 否	 | 设置语音的音量，在0～9之间（只支持整型值），不传时默认值为5
 setPitch | 	音调 | 	否 | 	设置语音的音调，取值0-9，不传时默认为5中语调
 setAudioType | 	返回数据文件格式 | 	否	 | 可不填，不填时默认为4，audiotype=4 ：返回16K采样率的pcm格式，audiotype=5 ：返回8K采样率的pcm格式，audiotype=6 ：返回16K采样率的wav格式， audiotype=6&rate=1 ：返回8K的wav格式
-setEnableTimestamp | 	是否返回时间戳内容 | 	否 | 	设置是否返回时间戳内容。true=支持返回，false=不需要返回。不设置默认为false不返回。
 
 **注意：如果调整了参数中的采样率或码率，记得注意(Demo中示例的)播放器的采样率也要同步调整。**
 
@@ -56,17 +66,29 @@ setEnableTimestamp | 	是否返回时间戳内容 | 	否 | 	设置是否返回�
 参数	     |    参数名称   | 说明
 ------ | --------------- | --------- 
 onSynthesisStarted | 	开始合成 | 	开始合成
+onPrepared | 	准备就绪 | 	第一帧数据返回时的回调，此时可以使用数据执行播放。
 onBinaryReceived | 	流式持续返回数据的接口回调 | 	idx  数据块序列号，请求内容会以流式的数据块方式返回给客户端。服务器端生成，从1递增。data 合成的音频数据，已使用base64加密，客户端需进行base64解密。audioType  音频类型，如audio/pcm。interval  音频interval信息，可能为空。endFlag  是否时最后一个数据块，false：否，true：是。
 onSynthesisCompleted | 	合成完成 | 	当onBinaryReceived方法中endFlag参数=true，即最后一条消息返回后，会回调此方法。
 onTaskFailed | 	合成失败	 | 返回msg内容格式为：{"code":40000,"message":"…","trace_id":" 1572234229176271"} trace_id是引擎内部合成任务ID。
-## 4.3失败时返回的code对应表
-### 4.3.1失败时返回的msg格式
+
+## 4.3 BakerMediaCallback回调类方法说明
+参数	     |    参数名称   | 说明
+------ | --------------- | --------- 
+onPrepared | 	准备就绪 | 	第一帧数据返回时的回调，此时可以使用数据执行播放。
+onCacheAvailable | 	数据缓存进度回调 | 	percentsAvailable 已缓存的百分比，整数型，取值范围0-100。
+playing | 	开始播放回调 | 	播放状态切换：开始播放时的回调。
+noPlay | 	暂停或停止播放回调	 | 播放状态切换：暂停或停止播放时的回调。
+onCompletion | 播放结束	 | 当数据播放完成时的回调。
+onError | 	各类失败时的回调	 | 返回msg内容格式为：{"code":40000,"message":"…","trace_id":" 1572234229176271"} trace_id是引擎内部合成任务ID。
+
+## 4.4失败时返回的code对应表
+### 4.4.1失败时返回的msg格式
 参数名称	     |    类型   | 描述
 ------ | --------------- | --------- 
 code  | 	int  | 	错误码9xxxx表示SDK相关错误，1xxxx参数相关错误，2xxxx合成引擎相关错误，3xxxx授权及其他错误
 message  | 	string	  | 错误描述
 trace_id  | 	string  | 	引擎内部合成任务id
-### 4.3.2 对应code值
+### 4.4.2 对应code值
 
 错误码 | 	含义
 ------ | ---------------
@@ -75,6 +97,7 @@ trace_id  | 	string  | 	引擎内部合成任务id
 90003 | 	参数格式错误
 90004 | 	返回结果解析错误
 90005 | 	合成失败，失败信息相关错误。
+90006 | 	SDK中播放器相关错误。
 10001	 | access_token参数获取失败或未传输
 10002 | 	domain参数值错误
 10003	 | language参数错误
