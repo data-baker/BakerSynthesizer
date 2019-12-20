@@ -36,7 +36,7 @@ android:usesCleartextTraffic="true"
 5. callback中的onPrepared()意义是合成的第一帧数据已取得。所以您可以在此回调方法中开启播放任务。
 6. 在callback其他回调方法中按照您的业务需求实现对应逻辑。
 7. 如果需要发起新的请求，可以重复第3-6步。
-8. 在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.stop();结束websocket服务，释放资源。
+8. 在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.onDestroy();结束websocket服务，释放资源。
 
 注意：若使用SDK中播放器执行合成音频播放任务，有以下方法可调用。  
 + bakerSynthesizer.bakerPlay() 播放音频，常在onPrepared()回调方法里调用此方法执行播放。
