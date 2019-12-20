@@ -63,13 +63,13 @@ setAudioType | 	返回数据文件格式 | 	否	 | 可不填，不填时默认�
 **注意：如果调整了参数中的采样率或码率，记得注意(Demo中示例的)播放器的采样率也要同步调整。**
 
 ## 4.2 BakerCallback 回调类方法说明
-参数	     |    参数名称   | 说明
+参数	     |    参数名称     | 说明
 ------ | --------------- | --------- 
-onSynthesisStarted | 	开始合成 | 	开始合成
-onPrepared | 	准备就绪 | 	第一帧数据返回时的回调，此时可以使用数据执行播放。
-onBinaryReceived | 	流式持续返回数据的接口回调 | 	idx  数据块序列号，请求内容会以流式的数据块方式返回给客户端。服务器端生成，从1递增。data 合成的音频数据，已使用base64加密，客户端需进行base64解密。audioType  音频类型，如audio/pcm。interval  音频interval信息，可能为空。endFlag  是否时最后一个数据块，false：否，true：是。
-onSynthesisCompleted | 	合成完成 | 	当onBinaryReceived方法中endFlag参数=true，即最后一条消息返回后，会回调此方法。
-onTaskFailed | 	合成失败	 | 返回msg内容格式为：{"code":40000,"message":"…","trace_id":" 1572234229176271"} trace_id是引擎内部合成任务ID。
+onSynthesisStarted | 	开始合成   | 	开始合成
+onPrepared | 	准备就绪     | 	第一帧数据返回时的回调，此时可以使用数据执行播放。
+onBinaryReceived | 	流式持续返回数据的接口回调   | 	data 合成的音频数据，已使用base64加密，客户端需进行base64解密。audioType  音频类型，如audio/pcm。interval  音频interval信息，可能为空。endFlag  是否时最后一个数据块，false：否，true：是。
+onSynthesisCompleted |   	合成完成    | 	当onBinaryReceived方法中endFlag参数=true，即最后一条消息返回后，会回调此方法。
+onTaskFailed |   	合成失败	 | 返回msg内容格式为：{"code":40000,"message":"…","trace_id":" 1572234229176271"} trace_id是引擎内部合成任务ID。
 
 ## 4.3 BakerMediaCallback回调类方法说明
 参数	     |    参数名称   | 说明
