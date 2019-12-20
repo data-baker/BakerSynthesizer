@@ -1,50 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:text="文本内容："/>
-
-    <EditText
-        android:id="@+id/edit_content"
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:text="欢迎使用标贝智能合成语音服务！"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:maxLength="200"
-        />
+        android:layout_height="80dp"
+        android:layout_margin="20dp"
+        android:onClick="toAudioTrackPlayerActivity"
+        android:text="@string/string_audio_track_player"/>
 
-    <LinearLayout
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edit_content">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@android:color/black"
-            android:onClick="startSynthesizer"
-            android:text="合成播放"
-            />
+        android:layout_height="80dp"
+        android:layout_margin="20dp"
+        android:onClick="toMediaTrackPlayerActivity"
+        android:text="@string/string_media_track_player"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="stopSynthesizer"
-            android:textColor="@android:color/black"
-            android:text="停止播放"
-            />
-    </LinearLayout>
-
-
-</RelativeLayout>
+</LinearLayout>

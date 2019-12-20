@@ -11,11 +11,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Create by hsj55
  * 2019/11/27
  */
-public class AudioPlayer {
-    private static String TAG = "AudioPlayer";
+public class AudioTrackPlayer {
+    private static String TAG = "AudioTrackPlayer";
     private final int SAMPLE_RATE = 16000;
     private boolean playing = false;
-    private LinkedBlockingQueue<byte[]> audioQueue = new LinkedBlockingQueue();
+    private LinkedBlockingQueue<byte[]> audioQueue = new LinkedBlockingQueue<>();
 
     // 初始化播放器
     private int iMinBufSize = AudioTrack.getMinBufferSize(SAMPLE_RATE,
@@ -30,8 +30,11 @@ public class AudioPlayer {
 
     private Thread ttsPlayerThread;
 
-    AudioPlayer() {
+    AudioTrackPlayer() {
         Log.i(TAG, "init");
+        if (tempData != null) {
+            tempData = null;
+        }
         playing = true;
         ttsPlayerThread = new Thread(new Runnable() {
             @Override
@@ -59,26 +62,20 @@ public class AudioPlayer {
         ttsPlayerThread.start();
     }
 
-    public void setAudioData(byte[] data, boolean needClean) {
-        Log.d(TAG, "data enqueue");
-        if (needClean)
-            audioQueue.clear();
-        audioQueue.offer(data);
-        //非阻塞
+    public void cleanAudioData() {
+        audioQueue.clear();
     }
 
-    public void resume() {
-        if (audioTrack.getPlayState() != AudioTrack.PLAYSTATE_PLAYING) {
-            audioTrack.play();
-        }
+    public void setAudioData(byte[] data) {
+        audioQueue.offer(data);
     }
 
     public void stop() {
-//        playing = false;
+        playing = false;
         audioTrack.pause();
         audioQueue.clear();
-//        audioTrack.flush();
-//        audioTrack.stop();
+        audioTrack.flush();
+        audioTrack.stop();
         Log.d(TAG, "stopped");
     }
 }

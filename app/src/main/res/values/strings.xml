@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">标贝合成</string>
+    <string name="string_audio_track_player">SDK无播放器示例</string>
+    <string name="string_media_track_player">SDK含播放器示例</string>
+    <string name="string_synthesis_play">合成播放</string>
+    <string name="string_play">开始合成播放</string>
+    <string name="string_pause">暂停/播放</string>
+    <string name="string_stop">停止播放</string>
+    <string name="string_is_play">当前播放状态</string>
+    <string name="string_play_duration">获取播放进度</string>
+    <string name="string_duration">音频总长度</string>
+    <string name="string_sample">欢迎使用标贝智能合成语音服务！盘古时期，女娲补天后留下女娲石，200年以后，女娲石上竟然长出了一颗仙草，所有人都在惊叹的时候这颗仙草已经化成人形。没有经过百年修行竟能修得人形，让众仙不解，不知道她是神还是妖。众仙商议，仙草竟能从女娲石里长出来，可见慧根极强，便叫她妖仙，非妖魔非神仙。西王母见此仙草的仙骨极其透彻是极其稀有的仙骨，边将仙草收入门下起名蒲公英。在很久以前一个安静的夜晚，天空中闪现一道蓝色极光，它的光亮不仅隐藏着自己的冰冷还折射着无数星球，星星点点将夜空点缀的美丽闪耀。这种璀璨是烟花无法比及的，美好的事物总是昙花一现，它震撼人们的眼睛不到0.1s就消失不见了，消失的如此悲伤缺乏温暖。谁也不知道这道光的黯然忧伤。</string>
 </resources>
