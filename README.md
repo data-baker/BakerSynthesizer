@@ -33,7 +33,7 @@ android:usesCleartextTraffic="true"
 2. SDK中提供了2个回调类。如果想要自己处理合成返回的字节类型源数据，则可以定义BakerCallback实现类。如果想直接将合成文本数据交给SDK中的播放器处理，则可以定义BakerMediaCallback实现类。**如果选择了定义BakerCallback实现类，SDK中不会执行播放器等一整套业务代码，不用担心由此带来的各类附加资源开销。**
 3. 设置BakerSynthesizer合成参数，包括必填参数和非必填参数。
 4. 调用BakerSynthesizer.start()方法开始与云端服务连接
-5. callback中的onPrepared()意义是合成的第一帧数据已取得。所以您可以在此回调方法中开启播放任务。
+5. callback中的onPrepared()意义是合成的第一帧数据已取得。所以您可以在此回调方法中**调用bakerSynthesizer.bakerPlay()方法开启播放任务**。
 6. 在callback其他回调方法中按照您的业务需求实现对应逻辑。
 7. 如果需要发起新的请求，可以重复第3-6步。
 8. 在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.onDestroy();结束websocket服务，释放资源。
