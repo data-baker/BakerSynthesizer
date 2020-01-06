@@ -5,11 +5,7 @@
 ```java
 dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.0"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
-    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 ```
 ## 1.3在主Module的AndroidManifest.xml文件中添加网络权限。
