@@ -18,6 +18,18 @@ android:usesCleartextTraffic="true"
 ```
 **Eclipse环境也遵循相关集成jar包的方式即可。**
 
+## 1.5 关于混淆
+    SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加上。具体混淆代码可以去官方文档上查阅。如果项目中已经有这两个包的混淆代码，不必重复添加。请加上我们SDK其他类的混淆代码，如下：
+```java
+-keep class com.databaker.synthesizer.bean.** { *; } 
+-keep public class com.databaker.synthesizer.BakerConstants{*;}
+-keep public class com.databaker.synthesizer.BakerSynthesizer{*;}
+-keep public class com.databaker.synthesizer.BakerCallback{*;}
+-keep public class com.databaker.synthesizer.SynthesizerCallback{*;}
+-keep public class com.databaker.synthesizer.BakerMediaCallback{*;}
+-keep public class com.databaker.synthesizer.BaseMediaCallback{*;}
+```
+
 # 2.SDK关键类
 1. BakerSynthesizer：语音合成关键业务处理类，全局只需一个实例即可。
 2. BakerCallback：合成结果源数据回调类。在获得合成音频源数据，或发生错误等情况发生时会触发此回调。如果您的应用场景中需要直接处理返回的字节类型源数据，您可以实现该类，并在回调方法中加入自己的处理逻辑。设置参数时请将此callback提交给BakerSynthesizer实例。
@@ -41,6 +53,8 @@ android:usesCleartextTraffic="true"
 + bakerSynthesizer.isPlaying() 当前播放状态，boolean型，true=正在播放中，false=暂停或停止播放。
 + bakerSynthesizer.getCurrentPosition() 当前播放进度。
 + bakerSynthesizer.getDuration()文本合成音频的总长度。
+
+
 
 
 # 4.参数说明
