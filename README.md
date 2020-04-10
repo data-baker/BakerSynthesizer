@@ -19,7 +19,7 @@ android:usesCleartextTraffic="true"
 **Eclipse环境也遵循相关集成jar包的方式即可。**
 
 ## 1.5 关于混淆
-    SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加上。具体混淆代码可以去官方文档上查阅。如果项目中已经有这两个包的混淆代码，不必重复添加。请加上我们SDK其他类的混淆代码，如下：
+SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加上。具体混淆代码可以去官方文档上查阅。如果项目中已经有这两个包的混淆代码，不必重复添加。请加上我们SDK其他类的混淆代码，如下：
 ```java
 -keep class com.databaker.synthesizer.bean.** { *; } 
 -keep public class com.databaker.synthesizer.BakerConstants{*;}
