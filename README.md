@@ -50,8 +50,8 @@ SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加�
 5. callback中的onPrepared()意义是合成的第一帧数据已取得。所以您可以在此回调方法中**调用bakerSynthesizer.bakerPlay()方法开启播放任务**。
 6. 在callback其他回调方法中按照您的业务需求实现对应逻辑。
 7. 如果需要发起新的请求，可以重复第3-6步。
-8. 在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.onDestroy();结束websocket服务，释放资源。
-9  **若使用离线合成功能，则初始化OfflineBakerSynthesizer实例即可，其余调用方式皆不变**。
+8. 在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.onDestroy();结束websocket服务，释放资源。 
+9. 若使用离线合成功能，则初始化OfflineBakerSynthesizer实例即可，**其余调用方式皆不变**。
 
 注意：若使用SDK中播放器执行合成音频播放任务，有以下方法可调用。  
 + bakerSynthesizer.bakerPlay() 播放音频，常在onPrepared()回调方法里调用此方法执行播放。
