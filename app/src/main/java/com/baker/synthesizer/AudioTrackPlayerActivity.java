@@ -12,7 +12,7 @@ import com.databaker.synthesizer.BakerConstants;
 import com.databaker.synthesizer.BakerSynthesizer;
 
 public class AudioTrackPlayerActivity extends AppCompatActivity {
-        private final String clientId = "Your clientId";
+    private final String clientId = "Your clientId";
     private final String clientSecret = "Your clientSecret";
     private BakerSynthesizer bakerSynthesizer;
     private AudioTrackPlayer audioTrackPlayer;

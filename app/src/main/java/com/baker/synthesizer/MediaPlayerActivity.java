@@ -14,7 +14,7 @@ import com.databaker.synthesizer.BakerMediaCallback;
 import com.databaker.synthesizer.BakerSynthesizer;
 
 public class MediaPlayerActivity extends AppCompatActivity {
-        private final String clientId = "Your clientId";
+    private final String clientId = "Your clientId";
     private final String clientSecret = "Your clientSecret";
     private BakerSynthesizer bakerSynthesizer;
     private EditText editText;

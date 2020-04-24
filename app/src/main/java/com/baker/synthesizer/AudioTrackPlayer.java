@@ -70,12 +70,18 @@ public class AudioTrackPlayer {
         audioQueue.offer(data);
     }
 
+    public void play() {
+        if (audioTrack != null && audioTrack.getPlayState() != AudioTrack.PLAYSTATE_PLAYING) {
+            audioTrack.play();
+        }
+    }
+
     public void stop() {
-        playing = false;
+//        playing = false;
         audioTrack.pause();
         audioQueue.clear();
         audioTrack.flush();
-        audioTrack.stop();
+//        audioTrack.stop();
         Log.d(TAG, "stopped");
     }
 }
