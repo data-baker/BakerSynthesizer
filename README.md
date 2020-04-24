@@ -1,6 +1,6 @@
 # 1.Android Studio集成jar（参考demo）
 ## 1.1将 jar 包添加至工程主 module 下，lib 文件夹里。
-
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200424121848950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hzaHVhaWp1bjU1,size_16,color_FFFFFF,t_70)
 ## 1.2在主module的build.gradle文件里，添加以下代码。
 ```java
 dependencies {
