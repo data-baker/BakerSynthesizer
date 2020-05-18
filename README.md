@@ -45,6 +45,7 @@ SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加�
 6. 在callback其他回调方法中按照您的业务需求实现对应逻辑。
 7. 如果需要发起新的请求，可以重复第3-6步。
 8. 在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.onDestroy();结束websocket服务，释放资源。 
+9. 私有化调用初始化时无clientId和secret，设置参数时需要设置token为固定默认值：default，设置私有化服务器地址，其他不变。祥见Demo或参考《私有化语音合成服务Android使用说明文档》(私有化语音合成服务Android使用说明文档2.4.pdf) 
 
 注意：若使用SDK中播放器执行合成音频播放任务，有以下方法可调用。  
 + bakerSynthesizer.bakerPlay() 播放音频，常在onPrepared()回调方法里调用此方法执行播放。
