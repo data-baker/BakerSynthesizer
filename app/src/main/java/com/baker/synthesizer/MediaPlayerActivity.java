@@ -14,6 +14,7 @@ import com.databaker.synthesizer.BakerMediaCallback;
 import com.databaker.synthesizer.BakerSynthesizer;
 
 public class MediaPlayerActivity extends AppCompatActivity {
+    //私有化部署时，无clientId和secret，使用标贝公有云合成需要拿到这个授权信息
     private final String clientId = "Your clientId";
     private final String clientSecret = "Your clientSecret";
     private BakerSynthesizer bakerSynthesizer;
@@ -31,9 +32,8 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
         //初始化sdk
         bakerSynthesizer = new BakerSynthesizer(clientId, clientSecret);
-//        bakerSynthesizer.setDebug(MediaPlayerActivity.this, true);
-//        bakerSynthesizer = new BakerSynthesizer(MediaPlayerActivity.this, clientId, clientSecret, 10);
-
+        //私有化部署时，初始化方式
+//        bakerSynthesizer = new BakerSynthesizer();
     }
 
     BakerMediaCallback bakerMediaCallback = new BakerMediaCallback() {
@@ -80,6 +80,9 @@ public class MediaPlayerActivity extends AppCompatActivity {
             return;
         }
         /**********************以下是必填参数**************************/
+        //私有化部署时，必须设置token和url，使用标贝公有云合成不需要设置这2个参数
+//        bakerSynthesizer.setTtsToken("default");
+//        bakerSynthesizer.setUrl("wss://xxxxx");
         //设置要转为语音的合成文本
         bakerSynthesizer.setText(editText.getText().toString().trim());
         //设置返回数据的callback
