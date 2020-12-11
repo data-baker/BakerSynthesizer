@@ -9,13 +9,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.databaker.synthesizer.BakerConstants;
+import com.baker.sdk.basecomponent.BakerBaseConstants;
+import com.baker.sdk.basecomponent.bean.BakerError;
 import com.databaker.synthesizer.BakerMediaCallback;
 import com.databaker.synthesizer.BakerSynthesizer;
 
 public class MediaPlayerActivity extends AppCompatActivity {
     //私有化部署时，无clientId和secret，使用标贝公有云合成需要拿到这个授权信息
-    private final String clientId = "Your clientId";
+        private final String clientId = "Your clientId";
     private final String clientSecret = "Your clientSecret";
     private BakerSynthesizer bakerSynthesizer;
     private EditText editText;
@@ -31,7 +32,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         resultTv.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         //初始化sdk
-        bakerSynthesizer = new BakerSynthesizer(clientId, clientSecret);
+        bakerSynthesizer = new BakerSynthesizer(MediaPlayerActivity.this, clientId, clientSecret);
         //私有化部署时，初始化方式
 //        bakerSynthesizer = new BakerSynthesizer();
     }
@@ -57,8 +58,9 @@ public class MediaPlayerActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onError(int errorCode, String errorMsg, String traceId) {
-            Log.d("baker", "--onError-- errorCode=" + errorCode + ", errorMsg=" + errorMsg);
+        public void onError(BakerError bakerError) {
+            appendResult("\n出错啦，errorCode=" + bakerError.getCode() + ", errorMsg=" + bakerError.getMessage());
+            Log.d("baker", "--onError-- errorCode=" + bakerError.getCode() + ", errorMsg=" + bakerError.getMessage());
         }
 
         @Override
@@ -89,9 +91,9 @@ public class MediaPlayerActivity extends AppCompatActivity {
         bakerSynthesizer.setBakerCallback(bakerMediaCallback);
         /**********************以下是选填参数**************************/
         //设置发音人声音名称，默认：标准合成_模仿儿童_果子
-        bakerSynthesizer.setVoice(BakerConstants.VOICE_NORMAL);
+        bakerSynthesizer.setVoice(BakerBaseConstants.VOICE_NORMAL);
         //合成请求文本的语言，目前支持ZH(中文和中英混)和ENG(纯英文，中文部分不会合成)、CAT(粤语),默认：ZH
-        bakerSynthesizer.setLanguage(BakerConstants.LANGUAGE_ZH);
+        bakerSynthesizer.setLanguage(BakerBaseConstants.LANGUAGE_ZH);
         //设置播放的语速，在0～9之间（支持浮点值），不传时默认为5
         bakerSynthesizer.setSpeed(5.0f);
         //设置语音的音量，在0～9之间（只支持整型值），不传时默认值为5
@@ -105,7 +107,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
          * audiotype=6 ：返回16K采样率的wav格式
          * audiotype=6&rate=1 ：返回8K的wav格式
          */
-        bakerSynthesizer.setAudioType(BakerConstants.AUDIO_TYPE_PCM_16K);
+        bakerSynthesizer.setAudioType(BakerBaseConstants.AUDIO_TYPE_PCM_16K);
     }
 
     public void start(View view) {

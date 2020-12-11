@@ -7,8 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.baker.sdk.basecomponent.BakerBaseConstants;
+import com.baker.sdk.basecomponent.bean.BakerError;
 import com.databaker.synthesizer.BakerCallback;
-import com.databaker.synthesizer.BakerConstants;
 import com.databaker.synthesizer.BakerSynthesizer;
 
 public class AudioTrackPlayerActivity extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class AudioTrackPlayerActivity extends AppCompatActivity {
         editText = findViewById(R.id.edit_content);
 
         //初始化sdk
-        bakerSynthesizer = new BakerSynthesizer(clientId, clientSecret);
+        bakerSynthesizer = new BakerSynthesizer(AudioTrackPlayerActivity.this, clientId, clientSecret);
         //私有化部署时，初始化方式
 //        bakerSynthesizer = new BakerSynthesizer();
     }
@@ -46,6 +47,15 @@ public class AudioTrackPlayerActivity extends AppCompatActivity {
          */
         @Override
         public void onSynthesisCompleted() {
+        }
+
+        /**
+         * 合成失败
+         * @param bakerError 返回msg内容格式为：{"code":40000,"message":"…","trace_id":" 1572234229176271"}
+         */
+        @Override
+        public void onTaskFailed(BakerError bakerError) {
+            Log.d("baker", "errorCode==" + bakerError.getCode() + ",errorMsg==" + bakerError.getMessage() + ",traceId==" + bakerError.getTrace_id());
         }
 
         /**
@@ -69,15 +79,6 @@ public class AudioTrackPlayerActivity extends AppCompatActivity {
         public void onBinaryReceived(byte[] data, String audioType, String interval, boolean endFlag) {
             audioTrackPlayer.setAudioData(data);
         }
-
-        /**
-         * 合成失败
-         * @param errorMsg 返回msg内容格式为：{"code":40000,"message":"…","trace_id":" 1572234229176271"}
-         */
-        @Override
-        public void onTaskFailed(int errorCode, String errorMsg, String traceId) {
-            Log.d("baker", "errorCode==" + errorCode + ",errorMsg==" + errorMsg + ",traceId==" + traceId);
-        }
     };
 
     /**
@@ -99,7 +100,7 @@ public class AudioTrackPlayerActivity extends AppCompatActivity {
         //设置发音人声音名称，默认：标准合成_模仿儿童_果子
         bakerSynthesizer.setVoice("特色合成_儿童声音_小恐龙");
         //合成请求文本的语言，目前支持ZH(中文和中英混)和ENG(纯英文，中文部分不会合成),默认：ZH
-        bakerSynthesizer.setLanguage(BakerConstants.LANGUAGE_ZH);
+        bakerSynthesizer.setLanguage(BakerBaseConstants.LANGUAGE_ZH);
         //设置播放的语速，在0～9之间（支持浮点值），不传时默认为5
         bakerSynthesizer.setSpeed(5.0f);
         //设置语音的音量，在0～9之间（只支持整型值），不传时默认值为5
@@ -113,7 +114,7 @@ public class AudioTrackPlayerActivity extends AppCompatActivity {
          * audiotype=6 ：返回16K采样率的wav格式
          * audiotype=6&rate=1 ：返回8K的wav格式
          */
-        bakerSynthesizer.setAudioType(BakerConstants.AUDIO_TYPE_PCM_16K);
+        bakerSynthesizer.setAudioType(BakerBaseConstants.AUDIO_TYPE_PCM_16K);
     }
 
     public void startSynthesizer(View view) {
