@@ -130,9 +130,13 @@ public class AudioTrackPlayerActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        audioTrackPlayer.stop();
-        if (bakerSynthesizer != null) {
-            bakerSynthesizer.onDestroy();
+        try {
+            audioTrackPlayer.stop();
+            if (bakerSynthesizer != null) {
+                bakerSynthesizer.onDestroy();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         super.onDestroy();
     }
